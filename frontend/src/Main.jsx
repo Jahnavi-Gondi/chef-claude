@@ -1,12 +1,13 @@
 import React from "react"
 import IngredientList from "./components/IngredientList"
 import Recipe from "./components/Recipe"
-import { getRecipeFromMistral } from "./ai"
+import { getRecipeFromMistral } from "./components/ai"
 
 export default function Main() {
     const [ingredients, setIngredients] = React.useState([])
     const [recipe, setRecipe] = React.useState("")
     const [isLoading, setIsLoading] = React.useState(false);
+    const [error, setError] = React.useState(null);
     const recipeSection = React.useRef(null)
 
     React.useEffect(() => {
@@ -17,14 +18,21 @@ export default function Main() {
             behavior: "smooth"
         });
     }
-}, [recipe]);
+    }, [recipe]);
 
+    async function handleGenerateRecipe() {
+        setIsLoading(true);
+        setError(null); // Clear previous errors
 
+        try {
+            const recipe = await getRecipeFromMistral(ingredients);
+            setRecipe(recipe);
+        } catch (err) {
+            setError("Failed to generate recipe. Please try again.");
+        }
 
-    // async function getRecipe(){
-    //     const generatedRecipe = await getRecipeFromMistral(ingredients)
-    //     setRecipe(generatedRecipe)
-    // }
+        setIsLoading(false);
+    }
 
     async function getRecipe() {
         console.log("Fetching recipe...");
@@ -46,6 +54,10 @@ export default function Main() {
         setIngredients(prevIngredients => [...prevIngredients, newIngredient])
     }
 
+    const handleRemoveIngredient = (index) => {
+        setIngredients(prev => prev.filter((_, i) => i !== index));
+    };
+
     return (
         <main>
             <form action={addIngredient} className="add-ingredient-form">
@@ -62,10 +74,12 @@ export default function Main() {
                 <IngredientList
                     ref={recipeSection}
                     ingredients={ingredients}
+                    onRemove={handleRemoveIngredient}
                     getRecipe={getRecipe}
                 />
             }
-            {isLoading && <div className="loading-text">🍲 Generating recipe, please wait<span className="dots"></span></div>}
+            {isLoading && <p>Loading recipe...</p>}
+            {error && <p className="error">{error}</p>}
             {recipe && <Recipe recipe={recipe} />}
         </main>
     )
