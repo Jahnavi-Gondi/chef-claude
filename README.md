@@ -27,7 +27,7 @@
 
 ### Frontend
 - React.js (Vite)
-- Tailwind CSS
+- Vanilla CSS
 - React Router
 - Toast notifications
 
@@ -56,7 +56,8 @@ chef-claude/
 │ ├── middleware/
 │ └── server.js
 │
-└── uploads/ # Profile picture uploads
+└── uploads/
+# Profile picture uploads
 
 
 
@@ -88,6 +89,8 @@ env
 PORT=5000
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret
+HF_API_KEY=your_huggingface_access_token
+
 4. Run the App
 Backend:
 bash
