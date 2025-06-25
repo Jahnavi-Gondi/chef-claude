@@ -58,9 +58,7 @@ chef-claude/
 │
 └── uploads/ # Profile picture uploads
 
-yaml
-Copy
-Edit
+
 
 ---
 
@@ -74,14 +72,12 @@ cd chef-claude
 2. Install Dependencies
 Frontend:
 bash
-Copy
-Edit
+
 cd frontend
 npm install
 Backend:
 bash
-Copy
-Edit
+
 cd ../backend
 npm install
 3. Configure Environment Variables
@@ -95,14 +91,12 @@ JWT_SECRET=your_jwt_secret
 4. Run the App
 Backend:
 bash
-Copy
-Edit
+
 cd backend
 npm start
 Frontend:
 bash
-Copy
-Edit
+
 cd ../frontend
 npm run dev
 🔮 Future Enhancements
